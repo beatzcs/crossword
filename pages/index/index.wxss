@@ -1,0 +1,149 @@
+/**index.wxss**/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.remain {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  font-size: 16pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: -moz-linear-gradient(top, #f00, #f9f900);
+  background: -o-linear-gradient(top, #f00, #f9f900);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f00), to(#f9f900));
+  margin: 50rpx 0;
+}
+
+.inputs {
+  display: flex;
+  width: 300rpx;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.inputs .input-item {
+  border: 1rpx solid #888;
+  border-radius: 5rpx;
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 16pt;
+}
+
+.input-focus {
+  width: 300rpx;
+  height: 40;
+  color: #fff;
+  background: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 0;
+  opacity: 0;
+}
+
+/* 结果 */
+
+.record {
+  width: 100%;
+  margin-top: 50rpx;
+  font-size: 13pt;
+}
+
+.record-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1rpx solid #ddd;
+  width: 100%;
+  padding: 15rpx 0;
+}
+
+.record-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record-left-item {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 16pt;
+}
+
+.record-right {
+  margin-left: 20rpx;
+}
+
+/* 烟花 */
+
+.firework {
+  width: 300px;
+  height: 230px;
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  transform: scale(0, 0);
+  animation: img1Animation 3s infinite;
+  animation-delay: 1s;
+}
+
+#img2 {
+  width: 15px;
+  height: 50px;
+  position: absolute;
+  left: 50%;
+  margin-left: -7px;
+  bottom: 0;
+  animation: img2Animation;
+  animation-duration: 3s;
+  /*animation-delay: 3s;*/
+  animation-fill-mode: forwards;
+}
+
+@keyframes img2Animation {
+  0% {
+    bottom: 0;
+    left: 50%;
+    margin-left: 7px;
+  }
+
+  99% {
+    bottom: 540px;
+    transform: scale(0.5, 0.5);
+  }
+
+  100% {
+    transform: scale(0, 0);
+  }
+}
+
+@keyframes img1Animation {
+  1% {
+    transform: scale(0.5, 0.5);
+    opacity: 0.1;
+  }
+
+  99% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0, 0);
+  }
+}
