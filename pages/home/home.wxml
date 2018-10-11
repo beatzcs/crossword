@@ -65,4 +65,6 @@
       <image class="input-num" src="/images/delete.png" />
     </view>
   </view>
+
+  <image wx:if="{{success}}" src="/images/firework.png" class="firework" />
 </view>

@@ -36,6 +36,7 @@ Page({
     this.setData({
       realArr: realArr
     })
+    console.log(this.data.realArr);
   },
 
   pickNum: function(e) {
@@ -68,18 +69,21 @@ Page({
           }
         }
         if (resA == 4) {
+          
           this.setData({
-            recordList: recordList,
-            numInput: "",
             success: true
           })
         }
         let result = "A" + resA + "B" + resB;
-        let recordList = this.data.recordList;
-        recordList = recordList.concat({
+        let recordList = this.data.recordList || [];
+        recordList.unshift({
           input: inputList,
           result: result
-        });
+        })
+        // recordList = recordList.concat({
+        //   input: inputList,
+        //   result: result
+        // });
         let timeCount = this.data.timeCount - 1;
         let failed = timeCount == 0 ? true : false;
         this.setData({
