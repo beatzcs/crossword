@@ -1,0 +1,68 @@
+<!--pages/home/home.wxml-->
+<view class="container">
+  <view class="remain">
+    <text>{{timeCount}}</text>
+  </view>
+
+  <view class="inputs">
+    <view class="bg-border">
+      <image wx:if="{{inputList[0]}}" src="/images/xingkong/{{inputList[0]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image wx:if="{{inputList[1]}}" src="/images/xingkong/{{inputList[1]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image wx:if="{{inputList[2]}}" src="/images/xingkong/{{inputList[2]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image wx:if="{{inputList[3]}}" src="/images/xingkong/{{inputList[3]}}.png" />
+    </view>
+  </view>
+
+  <view class="record">
+    <block wx:for="{{recordList}}">
+      <view class="record-item">
+        <view class="record-left">
+          <view class="record-left-item">
+            <image src="/images/xingkong/{{item.input[0]}}.png" />
+          </view>
+          <view class="record-left-item">
+            <image src="/images/xingkong/{{item.input[1]}}.png" />
+          </view>
+          <view class="record-left-item">
+            <image src="/images/xingkong/{{item.input[2]}}.png" />
+          </view>
+          <view class="record-left-item">
+            <image src="/images/xingkong/{{item.input[3]}}.png" />
+          </view>
+        </view>
+        <view class="record-right">
+          <block wx:for="{{item.result}}" wx:for-index="itemIndex" wx:for-item="itemRes">
+            <image wx:if="{{itemIndex%2==0}}" src="/images/abc/{{itemRes}}.png" />
+            <image wx:else src="/images/xingkong/{{itemRes}}.png" />
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
+
+<image class="input-board-bg" src="/images/background/hui.png"></image>
+<view class="input-board">
+  <view class="table">
+    <block wx:for="{{9}}">
+      <view class="item" style="width:{{window_width/3}}px;" bindtap="pickNum" data-num="{{item+1}}">
+        <image class="input-num" src="/images/xingkong/{{item+1}}.png" />
+      </view>
+    </block>
+    <view class="item" style="width:{{window_width/3}}px;">
+      <image class="input-num" src="/images/hide.png" />
+    </view>
+    <view class="item" style="width:{{window_width/3}}px;" bindtap="pickNum" data-num="0">
+      <image class="input-num" src="/images/xingkong/0.png" />
+    </view>
+    <view class="item" style="width:{{window_width/3}}px;" bindtap="deleteNum">
+      <image class="input-num" src="/images/delete.png" />
+    </view>
+  </view>
+</view>
