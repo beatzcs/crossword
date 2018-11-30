@@ -1,0 +1,11 @@
+<!--pages/main/main.wxml-->
+<view class="container">
+  <image class="logo" src="/images/background/logo.png"></image>
+  <view class="bottom">
+    <image class="icon" src="/images/password.png"></image>
+  </view>
+  <view class="bottom2">
+    <image class="start" bindtap="startGame" src="/images/start.png"></image>
+  </view>
+  <image class="tips" src="/images/tips.png" bindtap="watchTips"></image>
+</view>

@@ -1,0 +1,6 @@
+<!--pages/tips/tips.wxml-->
+<view class="container">
+  <view class="item">1、你有10次的机会去猜中这4个数字，在这四个数字中不会有相同的数字。</view>
+  <view class="item">2、当猜的数字的值和顺序都正确时才算过关。</view>
+  <view class="item">3、每次猜完数字都会有反馈一个结果，A表示你猜的数字中“值”和“位置”都正确的个数，B表示你猜的数字中“值”正确但“位置”不对的个数。</view>
+</view>

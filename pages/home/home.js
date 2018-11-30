@@ -9,13 +9,20 @@ Page({
     timeCount: 10,
     realArr: [],
     inputList: [],
-    recordList: []
+    recordList: [],
+    showBoard: true,
+    success: false,
+    failed: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    this.randomNumber();
+  },
+
+  randomNumber: function() {
     let realArr = this.data.realArr;
     for (; realArr.length < 4;) {
       let temp = parseInt(Math.random() * 10, 10);
@@ -39,7 +46,14 @@ Page({
     console.log(this.data.realArr);
   },
 
+  /**
+   * 选择数字
+   */
   pickNum: function(e) {
+    if (this.data.success || this.data.failed) {
+      console.log("请重新开始...");
+      return;
+    }
     let inputList = this.data.inputList || [];
     let input = e.currentTarget.dataset.num;
     if (inputList.length < 4) {
@@ -49,59 +63,72 @@ Page({
       })
 
       if (inputList.length == 4) {
-        let resA = 0;
-        let resB = 0;
-        let realArr = this.data.realArr;
-        for (let i = 0; i < 4; i++) {
-          if (realArr[i] == inputList[i]) {
-            resA++;
-          }
-        }
-        for (let i = 0; i < 4; i++) {
-          for (let j = 0; j < 4; j++) {
-            if (i == j) {
-              continue;
-            }
-            if (inputList[j] == realArr[i]) {
-              resB++;
-              break;
+        setTimeout(function() {
+          let resA = 0;
+          let resB = 0;
+          let realArr = this.data.realArr;
+          for (let i = 0; i < 4; i++) {
+            if (realArr[i] == inputList[i]) {
+              resA++;
             }
           }
-        }
-        if (resA == 4) {
-          
+          for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              if (i == j) {
+                continue;
+              }
+              if (inputList[j] == realArr[i]) {
+                resB++;
+                break;
+              }
+            }
+          }
+          if (resA == 4) {
+            if (this.data.showBoard) {
+              this.dismiss();
+            }
+            this.setData({
+              success: true
+            })
+            setTimeout(function() {
+              this.successAnim();
+            }.bind(this), 200)
+          }
+          let result = "A" + resA + "B" + resB;
+          let recordList = this.data.recordList || [];
+          recordList.unshift({
+            input: inputList,
+            result: result
+          })
+          // recordList = recordList.concat({
+          //   input: inputList,
+          //   result: result
+          // });
+          let timeCount = this.data.timeCount - 1;
+          let failed = timeCount == 0 ? true : false;
           this.setData({
-            success: true
+            inputList: [],
+            recordList: recordList,
+            timeCount: timeCount,
+            failed: failed
           })
-        }
-        let result = "A" + resA + "B" + resB;
-        let recordList = this.data.recordList || [];
-        recordList.unshift({
-          input: inputList,
-          result: result
-        })
-        // recordList = recordList.concat({
-        //   input: inputList,
-        //   result: result
-        // });
-        let timeCount = this.data.timeCount - 1;
-        let failed = timeCount == 0 ? true : false;
-        this.setData({
-          inputList: [],
-          recordList: recordList,
-          timeCount: timeCount,
-          failed: failed
-        })
-        if (failed) {
-          wx.showToast({
-            title: '失败',
-            icon: 'none'
-          })
-        }
+          if (failed) {
+            if (this.data.showBoard) {
+              this.dismiss();
+            }
+            setTimeout(function() {
+              this.failedAnim();
+            }.bind(this), 200)
+          }
+        }.bind(this), 400)
+
       }
     }
   },
 
+  /**
+   * 删除数字 
+   */
   deleteNum: function() {
     let inputList = this.data.inputList || [];
     if (inputList.length > 0) {
@@ -110,6 +137,183 @@ Page({
         inputList: inputList
       })
     }
+  },
+
+  /**
+   * 重玩
+   */
+  replay: function() {
+    if (this.data.timeCount == 10) {
+      return;
+    }
+    this.setData({
+      timeCount: 10,
+      realArr: [],
+      inputList: [],
+      recordList: [],
+      showBoard: true,
+      success: false,
+      failed: false,
+      watchAns: false,
+      showCover: false
+    })
+    this.randomNumber();
+  },
+
+  playAgain: function() {
+    //console.log('dismiss: function');
+    let anim = wx.createAnimation({
+      duration: 300,
+      timingFunction: 'linear',
+      delay: 0,
+    });
+    anim.translateY(-350).step();
+    this.setData({
+      animationSuccess: anim.export(),
+    });
+    setTimeout(function() {
+      anim.translateY(0).step();
+      this.setData({
+        animationSuccess: anim.export()
+      })
+      this.replay();
+    }.bind(this), 300);
+  },
+
+  watchAnswer: function() {
+    this.dismissFailed();
+    this.setData({
+      watchAns: true
+    })
+  },
+
+  /**
+   * 显示输入板动画
+   */
+  showBoardAnim: function() {
+    if (this.data.showBoard) {
+      console.log("输入板已打开...");
+      return;
+    }
+    if (this.data.failed) {
+      this.failedAnim();
+      return;
+    }
+    if (this.data.success) {
+      console.log("请重新开始...");
+      return;
+    }
+    let anim = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear',
+      delay: 0,
+    });
+    anim.translateY(400).step();
+    this.setData({
+      animationData: anim.export(),
+      showBoard: true
+    });
+    setTimeout(function() {
+      anim.translateY(0).step();
+      this.setData({
+        animationData: anim.export()
+      });
+    }.bind(this), 200);
+  },
+
+  /**
+   * 失败动画
+   */
+  failedAnim: function() {
+    let anim = wx.createAnimation({
+      duration: 300,
+      delay: 0,
+      timingFunction: 'ease-in-out'
+    })
+    anim.translateY(0).step();
+    this.setData({
+      showCover: true,
+      animationFailed: anim.export()
+    })
+    setTimeout(function() {
+      anim.translateY(-400).step();
+      this.setData({
+        animationFailed: anim.export()
+      })
+    }.bind(this), 300)
+  },
+
+  /**
+   * 成功动画
+   */
+  successAnim: function() {
+    let anim = wx.createAnimation({
+      duration: 300,
+      delay: 0,
+      timingFunction: 'ease-in-out'
+    })
+    anim.translateY(0).step();
+    this.setData({
+      showCover: true,
+      animationSuccess: anim.export()
+    })
+    setTimeout(function() {
+      anim.translateY(350).step();
+      this.setData({
+        animationSuccess: anim.export()
+      })
+    }.bind(this), 300)
+  },
+
+  /**
+   * 隐藏输入板动画
+   */
+  dismiss: function() {
+    //console.log('dismiss: function');
+    let anim = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear',
+      delay: 0,
+    });
+    anim.translateY(400).step();
+    this.setData({
+      animationData: anim.export(),
+    });
+    setTimeout(function() {
+      anim.translateY(0).step();
+      this.setData({
+        animationData: anim.export(),
+        showBoard: false
+      })
+    }.bind(this), 200);
+  },
+
+  /**
+   * 隐藏失败动画
+   */
+  dismissFailed: function() {
+    //console.log('dismiss: function');
+    let anim = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'linear',
+      delay: 0,
+    });
+    anim.translateY(400).step();
+    this.setData({
+      animationFailed: anim.export(),
+    });
+    setTimeout(function() {
+      anim.translateY(0).step();
+      this.setData({
+        animationFailed: anim.export(),
+        showBoard: false,
+        showCover: false
+      })
+    }.bind(this), 200);
+  },
+
+  preventMove: function() {
+
   },
 
   /**

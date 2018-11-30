@@ -1,24 +1,53 @@
 <!--pages/home/home.wxml-->
 <view class="container">
+  <image class="home-bg" src="/images/background/home.png"/>
   <view class="remain">
+    <text bindtap="replay">重玩</text>
+  </view>
+  <view class="remains">
     <text>{{timeCount}}</text>
   </view>
 
-  <view class="inputs">
+  <!-- 输入框 -->
+  <view wx:if="{{!watchAns}}" class="inputs" catchtap="showBoardAnim">
     <view class="bg-border">
-      <image wx:if="{{inputList[0]}}" src="/images/xingkong/{{inputList[0]}}.png" />
+      <image class="bg" mode="aspectFit" src="/images/window_yellow.png"></image>
+      <image class="num" wx:if="{{inputList[0]}}" src="/images/huihui/{{inputList[0]}}.png" />
     </view>
     <view class="bg-border">
-      <image wx:if="{{inputList[1]}}" src="/images/xingkong/{{inputList[1]}}.png" />
+      <image class="bg" mode="aspectFit" src="/images/window_yellow.png"></image>
+      <image class="num" wx:if="{{inputList[1]}}" src="/images/huihui/{{inputList[1]}}.png" />
     </view>
     <view class="bg-border">
-      <image wx:if="{{inputList[2]}}" src="/images/xingkong/{{inputList[2]}}.png" />
+      <image class="bg" mode="aspectFit" src="/images/window_yellow.png"></image>
+      <image class="num" wx:if="{{inputList[2]}}" src="/images/huihui/{{inputList[2]}}.png" />
     </view>
     <view class="bg-border">
-      <image wx:if="{{inputList[3]}}" src="/images/xingkong/{{inputList[3]}}.png" />
+      <image class="bg" mode="aspectFit" src="/images/window_yellow.png"></image>
+      <image class="num" wx:if="{{inputList[3]}}" src="/images/huihui/{{inputList[3]}}.png" />
     </view>
   </view>
 
+  <view wx:else class="inputs" catchtap="showBoardAnim">
+    <view class="bg-border">
+      <image class="bg" mode="aspectFit" src="/images/window_red.png"></image>
+      <image class="num" src="/images/jianbian/{{realArr[0]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image class="bg" mode="aspectFit" src="/images/window_red.png"></image>
+      <image class="num" src="/images/jianbian/{{realArr[1]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image class="bg" mode="aspectFit" src="/images/window_red.png"></image>
+      <image class="num" src="/images/jianbian/{{realArr[2]}}.png" />
+    </view>
+    <view class="bg-border">
+      <image class="bg" mode="aspectFit" src="/images/window_red.png"></image>
+      <image class="num" src="/images/jianbian/{{realArr[3]}}.png" />
+    </view>
+  </view>
+
+  <!-- 输入记录 -->
   <view class="record">
     <block wx:for="{{recordList}}">
       <view class="record-item">
@@ -39,32 +68,53 @@
         <view class="record-right">
           <block wx:for="{{item.result}}" wx:for-index="itemIndex" wx:for-item="itemRes">
             <image wx:if="{{itemIndex%2==0}}" src="/images/abc/{{itemRes}}.png" />
-            <image wx:else src="/images/xingkong/{{itemRes}}.png" />
+            <image wx:else src="/images/shuini/{{itemRes}}.png" />
           </block>
         </view>
       </view>
     </block>
   </view>
+
+  <image wx:if="{{success}}" src="/images/firework.png" class="firework" />
 </view>
 
-<image class="input-board-bg" src="/images/background/hui.png"></image>
-<view class="input-board">
+<!-- 输入板 -->
+<view wx:if="{{showBoard}}" class="input-board" animation='{{animationData}}' catchtouchmove='preventMove'>
   <view class="table">
     <block wx:for="{{9}}">
       <view class="item" style="width:{{window_width/3}}px;" bindtap="pickNum" data-num="{{item+1}}">
-        <image class="input-num" src="/images/xingkong/{{item+1}}.png" />
+        <image class="input-num" src="/images/landi/{{item+1}}.png" />
       </view>
     </block>
-    <view class="item" style="width:{{window_width/3}}px;">
+    <view class="item" style="width:{{window_width/3}}px;" catchtap="dismiss">
       <image class="input-num" src="/images/hide.png" />
     </view>
     <view class="item" style="width:{{window_width/3}}px;" bindtap="pickNum" data-num="0">
-      <image class="input-num" src="/images/xingkong/0.png" />
+      <image class="input-num" src="/images/landi/0.png" />
     </view>
     <view class="item" style="width:{{window_width/3}}px;" bindtap="deleteNum">
       <image class="input-num" src="/images/delete.png" />
     </view>
   </view>
+</view>
 
-  <image wx:if="{{success}}" src="/images/firework.png" class="firework" />
+<!-- 失败 -->
+<view wx:if="{{showCover}}" class="cover-bg" catchtap="preventMove" catchtouchmove="preventMove"></view>
+<view wx:if="{{failed}}" class="cover-show" animation='{{animationFailed}}' catchtouchmove='preventMove'>
+  <image class="bg_cover" src="/images/background/success.png"/>
+  <view class="content">差一点就成功了！</view>
+  <view class='cover-bottom'>
+    <text catchtap='dismissFailed'>取消</text>
+    <text></text>
+    <button catchtap='watchAnswer' plain="true" class='lbl'>查看答案</button>
+  </view>
+</view>
+
+<!-- 成功 -->
+<view wx:if="{{success}}" class="success-show" animation='{{animationSuccess}}' catchtouchmove='preventMove'>
+  <image class="bg_cover" src="/images/background/success.png"/>
+  <view class="content">真棒！</view>
+  <view class='cover-bottom'>
+    <button catchtap='playAgain' plain="true" class='lbl'>再来一次</button>
+  </view>
 </view>

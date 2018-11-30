@@ -1,1 +1,33 @@
 /**app.wxss**/
+
+button::after {
+  border: none;
+}
+
+.text-one {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.text-two {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/*
+* 设置滚动条不可见(只能隐藏scrollView的滚动条)
+*/
+
+::-webkit-scrollbar {
+  color: transparent;
+  width: 0;
+  height: 0;
+}

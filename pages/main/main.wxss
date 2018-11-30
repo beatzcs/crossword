@@ -1,0 +1,54 @@
+/* pages/main/main.wxss */
+
+page {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  box-sizing: border-box;
+  position: relative;
+  height: 100%;
+}
+
+.logo {
+  position: fixed;
+  top: 10%;
+  left: 0;
+  width: 100%;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 30%;
+  left: 10%;
+  right: 10%;
+  text-align: center;
+}
+
+.icon{
+  width: 144rpx;
+  height: 144rpx;
+}
+
+.tips {
+  position: fixed;
+  left: 80%;
+  bottom: 20%;
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 32rpx;
+}
+
+.bottom2 {
+  position: fixed;
+  bottom: 20%;
+  left: 10%;
+  right: 10%;
+  text-align: center;
+}
+
+.start {
+  width: 366rpx;
+  height: 112rpx;
+}

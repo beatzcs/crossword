@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -12,7 +12,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.2.5",
-	"appid": "wx923049df962b1a09",
+	"appid": "wxa66e8e63f7bcb5cb",
 	"projectname": "crossword",
 	"isGameTourist": false,
 	"condition": {
